@@ -1,0 +1,41 @@
+# ── Web framework ───────────────────────────────────────────────────────────
+fastapi
+uvicorn[standard]
+python-multipart
+sse-starlette
+
+# ── Agentic orchestration ────────────────────────────────────────────────────
+langgraph
+langchain
+langchain-community
+langchain-huggingface
+
+# ── NLP / ML ─────────────────────────────────────────────────────────────────
+transformers
+torch
+sentence-transformers
+
+# ── Vector store ─────────────────────────────────────────────────────────────
+chromadb
+
+# ── Web scraping (Social Monitor) ────────────────────────────────────────────
+crawl4ai
+playwright
+fake-useragent
+
+# ── Search ───────────────────────────────────────────────────────────────────
+tavily-python
+
+# ── PDF parsing + OCR ────────────────────────────────────────────────────────
+unstructured[pdf]
+pdfminer.six
+pytesseract
+Pillow
+pdf2image
+
+# ── Data / utils ─────────────────────────────────────────────────────────────
+pandas
+nltk
+scipy
+python-dotenv
+httpx

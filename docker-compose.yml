@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  # ── Backend (FastAPI + LangGraph Swarm) ─────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: greenwash_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data          # shared data dir (uploads, screenshots, chroma_db)
+      - ./agents:/app/agents      # agent code (live reload friendly)
+    environment:
+      - TAVILY_API_KEY=${TAVILY_API_KEY}
+      - PINECONE_API_KEY=${PINECONE_API_KEY}
+      - HF_TOKEN=${HF_TOKEN}
+      - UPLOAD_DIR=/app/data/uploads
+      - SCREENSHOT_DIR=/app/data/screenshots
+      - CHROMA_DIR=/app/data/chroma_db
+      - FRONTEND_URL=http://localhost:3000
+    depends_on: []
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ── Frontend (Next.js) ───────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: greenwash_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
